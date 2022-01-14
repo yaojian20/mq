@@ -50,6 +50,11 @@ public class CommonController {
         commonProvider.sendFanoutMessage(message);
     }
 
+    @GetMapping("/delay/send")
+    public void sendDelay(@RequestParam("message")String message){
+        commonProvider.sendDelayMessage(message);
+    }
+
 
 
 }

@@ -1,9 +1,11 @@
 package com.yao.mq.config;
 
 import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
@@ -47,7 +49,32 @@ public class RabbiMqConfig {
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     // 必须是prototype类型-->如果消费者或者他自己
     public RabbitTemplate rabbitTemplate() throws IOException {
-        return new RabbitTemplate(connectionFactory());
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
+        //设置为true才会调用回调函数
+        rabbitTemplate.setMandatory(true);
+        rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
+            @Override
+            public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+                //调用情况
+                //1.消息推送到server，但是在server里找不到交换机
+                //2.消息推送到server，找到交换机了，但是没找到队列
+                //3.消息推送到sever，交换机和队列啥都没找到
+                //4.消息推送成功
+                System.out.println("ConfirmCallback:     "+"相关数据："+ correlationData);
+                System.out.println("ConfirmCallback:     "+"确认情况："+ ack);
+                System.out.println("ConfirmCallback:     "+"原因："+ cause);
+            }
+        });
+        //已过时
+        //rabbitTemplate.setReturnCallback();
+        rabbitTemplate.setReturnsCallback(new RabbitTemplate.ReturnsCallback() {
+            @Override
+            public void returnedMessage(ReturnedMessage returnedMessage) {
+                //2.消息推送到server，找到交换机了，但是没找到队列
+                System.out.println("ReturnsCallback :" + returnedMessage.toString());
+            }
+        });
+        return rabbitTemplate;
     }
 
     //消费者监听器工厂

@@ -2,6 +2,7 @@ package com.yao.mq.consumer;
 
 import com.rabbitmq.client.Channel;
 import com.yao.mq.config.FanoutQueueConfig;
+import com.yao.mq.config.RabbitDelayQueueConfig;
 import com.yao.mq.config.RabbitQueueConfig;
 import com.yao.mq.config.TopicQueueConfig;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -27,7 +28,7 @@ public class CommonConsumer {
         System.out.println("正在消费消息：" + message.toString());
         //确认消费
         try {
-            //因为设置了手动确认消费，所以这边必须要手动回复已消费，不然重启之后会再消费一次
+            //因为设置了手动确认消费，所以这边必须要手动回复已正确消费，不然重启之后会再消费一次
             channel.basicAck(deliveryTag, false);
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,6 +93,19 @@ public class CommonConsumer {
     public void consumerFanoutCMessage(String message, @Header(AmqpHeaders.DELIVERY_TAG) Long deliveryTag, Channel channel){
 
         System.out.println("FANOUT_C_QUEUE正在消费消息：" + message.toString());
+        //确认消费
+        try {
+            channel.basicAck(deliveryTag, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @RabbitListener(queues= RabbitDelayQueueConfig.DELAY_QUEUE)
+    public void consumerDelayMessage(String message, @Header(AmqpHeaders.DELIVERY_TAG) Long deliveryTag, Channel channel){
+
+        System.out.println("DELAY_QUEUE正在消费消息：" + message.toString());
         //确认消费
         try {
             channel.basicAck(deliveryTag, false);

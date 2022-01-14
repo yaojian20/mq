@@ -1,8 +1,6 @@
 package com.yao.mq.provider;
 
-import com.yao.mq.config.FanoutQueueConfig;
-import com.yao.mq.config.RabbitQueueConfig;
-import com.yao.mq.config.TopicQueueConfig;
+import com.yao.mq.config.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +35,11 @@ public class CommonProvider {
     public void sendFanoutMessage(String message){
         //发送消息到消息队列
         rabbitTemplate.convertAndSend(FanoutQueueConfig.FANOUT_EXCHANGE,null,message);
+    }
+
+    public void sendDelayMessage(String message){
+        //发送消息到消息队列
+        rabbitTemplate.convertAndSend(RabbitDelayQueueConfig.DELAY_DELETE_EXCHANGE,RabbitDelayQueueConfig.DELAY_DELETE_KEY,message,new ExpirationMessagePostProcessor(10*1000));
     }
 
 
