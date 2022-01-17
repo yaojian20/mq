@@ -1,4 +1,4 @@
-package com.yao.mq.config;
+package com.yao.mq.rabbitmq.config;
 
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;

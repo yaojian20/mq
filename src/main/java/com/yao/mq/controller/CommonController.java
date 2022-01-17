@@ -1,6 +1,6 @@
 package com.yao.mq.controller;
 
-import com.yao.mq.provider.CommonProvider;
+import com.yao.mq.rabbitmq.provider.CommonProvider;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,6 +1,6 @@
-package com.yao.mq.provider;
+package com.yao.mq.rabbitmq.provider;
 
-import com.yao.mq.config.*;
+import com.yao.mq.rabbitmq.config.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 

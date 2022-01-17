@@ -1,4 +1,4 @@
-package com.yao.mq.config;
+package com.yao.mq.rabbitmq.config;
 
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.ReturnedMessage;

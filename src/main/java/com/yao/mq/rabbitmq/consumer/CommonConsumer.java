@@ -1,17 +1,16 @@
-package com.yao.mq.consumer;
+package com.yao.mq.rabbitmq.consumer;
 
 import com.rabbitmq.client.Channel;
-import com.yao.mq.config.FanoutQueueConfig;
-import com.yao.mq.config.RabbitDelayQueueConfig;
-import com.yao.mq.config.RabbitQueueConfig;
-import com.yao.mq.config.TopicQueueConfig;
+import com.yao.mq.rabbitmq.config.FanoutQueueConfig;
+import com.yao.mq.rabbitmq.config.RabbitDelayQueueConfig;
+import com.yao.mq.rabbitmq.config.RabbitQueueConfig;
+import com.yao.mq.rabbitmq.config.TopicQueueConfig;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by yaojian on 2022/1/13 20:04
