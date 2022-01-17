@@ -1,0 +1,55 @@
+package com.yao.mq.activemq.provider;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+
+import javax.jms.*;
+
+/**
+ * Created by yaojian on 2022/1/17 10:04
+ *
+ * @author
+ */
+public class ProducerTest {
+
+    public static void main(String[] args) {
+        //tcp://localhost:61616可以再activemq里的activemq.xml里查到
+        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        Connection connection = null;
+        Session session = null;
+        try {
+             connection = connectionFactory.createConnection();
+             connection.start();
+             //第一个参数表示是否开启事务，开启事务之后后面的参数不生效
+             session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
+             //消息目的地
+             Destination queue = session.createQueue("activemq-common");
+             //消息体
+             TextMessage textMessage = session.createTextMessage("hello world!");
+             //消息发送者
+             MessageProducer producer = session.createProducer(queue);
+             //发送消息
+             producer.send(textMessage);
+             session.commit();
+
+        } catch (JMSException e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null){
+                try {
+                    session.close();
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null){
+                try {
+                    connection.close();
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+}
