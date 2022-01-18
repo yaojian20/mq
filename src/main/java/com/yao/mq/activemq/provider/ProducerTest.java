@@ -10,6 +10,34 @@ import javax.jms.*;
  * @author
  */
 public class ProducerTest {
+    /**
+     * activemq支持的协议TCP、UDP、SSL、NIO、HTTP/HTTPS、vm
+     * activeMq持久化存储kahaDB 、AMQ message store、jdbc、memory
+     * kahaDB 默认的存储方式
+     * AMQ 基于文件的存储方式 写入速度很快，容易恢复 文件默认大小32M
+     * jdbc 基于数据库的存储方式 需要设置bean，里面是datasource
+     * memory 基于内存的存储方式
+     *
+     * level DB 5.8以后引入的持久化策略，用于集群配置
+     * 在activemq.xml里修改
+     */
+
+
+    /**
+     * activeMQ网络连接
+     * activeMq如果要实现拓展性跟高可用性的话，需要用到网络连接将多个broker连接到一起
+     * networkConnector->主要用来配置broker与broker之间的通信连接
+     * 两种方式：1.静态网络连接 2.动态网络连接
+     * 1.静态网络连接
+     * 丢失消息（消息无法消费）-》解决 消息回流
+     *
+     *
+     *
+     *
+     */
+
+
+
 
     public static void main(String[] args) {
         //tcp://localhost:61616可以再activemq里的activemq.xml里查到
