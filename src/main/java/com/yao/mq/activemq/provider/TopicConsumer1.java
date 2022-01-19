@@ -14,6 +14,7 @@ public class TopicConsumer1 {
     public static void main(String[] args) {
 
         //tcp://localhost:61616可以再activemq里的activemq.xml里查到
+        //failover:uri1,...,uriN集群失败转移，集群
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
         Connection connection = null;
         Session session = null;

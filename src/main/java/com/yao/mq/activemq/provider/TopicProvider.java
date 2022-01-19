@@ -10,6 +10,7 @@ import javax.jms.*;
  * @author
  */
 public class TopicProvider {
+    //activemq同步模式会在消息是非事务模型下且消息采用持久化策略时使用，另外一种情况就是主动设置同步模式，其他情况都是默认异步模式
 
     public static void main(String[] args) {
         //1.创建连接工厂
@@ -20,6 +21,7 @@ public class TopicProvider {
         try {
             connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
             connection = connectionFactory.createConnection();
+
             //设置发送消息异步过程(不需要等待broker返回对消息的处理情况)
             //connectionFactory.setUseAsyncSend(true);
             //回执窗口大小设置(异步发送超过这么多不能继续发送)
