@@ -29,10 +29,20 @@ public class ProducerTest {
      * networkConnector->主要用来配置broker与broker之间的通信连接
      * 两种方式：1.静态网络连接 2.动态网络连接
      * 1.静态网络连接
-     * 丢失消息（消息无法消费）-》解决 消息回流
+     * 丢失消息（其实是集群环境下消息被集群其他机器消费但是没消费完，此时消息滞留在其他机器，这时候消息无法消费）-》解决 消息回流
      *
      *
      *
+     *
+     */
+
+    /**
+     * activemq消息丢失的情况
+     * 使用同步模式的时候，有3种状态保证消息被安全生产，在配置为1（只保证写入leader成功）的话，如果刚好leader partition挂了，数据就会丢失。
+     * 还有一种情况可能会丢失消息，就是使用异步模式的时候，当缓冲区满了，如果配置为0（还没有收到确认的情况下，缓冲池一满，就清空缓冲池里的消息），数据就会被立即丢弃掉
+     * 在数据生产时避免数据丢失的方法： 只要能避免上述两种情况，那么就可以保证消息不会被丢失。
+     * 在同步模式的时候，确认机制设置为-1，也就是让消息写入leader和所有的副本。
+     * 在异步模式下，如果消息发出去了，但还没有收到确认的时候，缓冲池满了，在配置文件中设置成不限制阻塞超时的时间，也就说让生产端一直阻塞，这样也能保证数据不会丢失。
      *
      */
 
@@ -57,6 +67,7 @@ public class ProducerTest {
              MessageProducer producer = session.createProducer(queue);
              //发送消息
              producer.send(textMessage);
+            System.out.println("message id is:" + textMessage.getJMSMessageID());
              session.commit();
 
         } catch (JMSException e) {

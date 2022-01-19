@@ -38,6 +38,7 @@ public class ConsumerTest {
             MessageConsumer consumer = session.createConsumer(queue);
             TextMessage textMessage = (TextMessage)consumer.receive();
             System.out.println("消费者收到消息：" + textMessage.getText());
+            System.out.println("message id is:" + textMessage.getJMSMessageID());
             //确认收到消息
             session.commit();
         } catch (JMSException e) {
