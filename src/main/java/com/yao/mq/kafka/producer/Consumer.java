@@ -73,6 +73,7 @@ public class Consumer extends ShutdownableThread {
         consumer.subscribe(Collections.singletonList("second"));
         ConsumerRecords<Integer, String> records = consumer.poll(1000);
         for (ConsumerRecord record : records){
+            System.out.println("========================================");
             System.out.println(record.key() + "-》" + record.value() + record.partition());
         }
         //获得offset存在消息分区

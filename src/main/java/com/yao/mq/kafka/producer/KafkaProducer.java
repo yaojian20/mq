@@ -1,5 +1,6 @@
 package com.yao.mq.kafka.producer;
 
+import com.yao.mq.kafka.partition.MyPartition;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -25,6 +26,8 @@ public class KafkaProducer {
         properties.put("bootstrap.server", KAFKA_BROKER_LIST);
         properties.put("key.serializer", "org.apache.kafka.common.serialization.IntegerSerializer");
         properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        //设置分区类
+        properties.put("partitioner.class", "com.yao.mq.kafka.partition.MyPartition");
         properties.put("client.id", "producerDemo");
         this.producer = new org.apache.kafka.clients.producer.KafkaProducer<Integer, String>(properties);
         this.topic = topic;
