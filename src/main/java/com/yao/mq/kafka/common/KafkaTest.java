@@ -67,8 +67,24 @@ public class KafkaTest {
      * leader节点负责写入数据，follower节点会从leader节点上复制数据
      * 消费者只能消费hw标记的消息及之前的消息（只有所有follower节点都同步了该消息，消费者才能消费该消息），所以副本数多了会影响性能
      * 同步会导致如果follower挂掉之后，无法消费该消息，因为follower节点此时还没同步，
-     * 所以通过ISR将offset差的太多的follower提出ISR，这个时候就不需要关挂掉的follower节点，这样就可以消费了
+     * 所以通过ISR将offset差的太多的follower踢出ISR，这个时候就不需要关挂掉的follower节点，这样就可以消费了
      *
+     */
+
+    /**
+     * HW和LEO
+     * High water 表示在ISR中所有该offset的数据都被同步了，此时该消息可以被消费
+     * 没有都被同步的数据标记为LEO（log end offset）,
+     *
+     */
+
+
+    /**
+     * kafka的分区分配策略
+     * 同一个分区的消息只能由同一个分组的消费者消费
+     * 同一个consumers group里的消费者怎么分配分区
+     * consumers的rebalance策略
+     * 默认是范围策略，还有一个是轮询策略
      */
 
 
