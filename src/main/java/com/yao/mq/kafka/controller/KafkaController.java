@@ -27,6 +27,7 @@ public class KafkaController {
         if (null == topic || topic.isEmpty()){
             topic = "MyTopic";
         }
+        System.out.println("message is :" + messgae);
         producerService.sendMsg(topic, messgae);
     }
 
